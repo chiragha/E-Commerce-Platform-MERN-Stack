@@ -35,9 +35,9 @@ backend/
 # Backend
 cd backend
 npm install
-npm run dev
+npm start
 
 # Frontend
 cd frontend
 npm install
-npm start
+npm run dev
