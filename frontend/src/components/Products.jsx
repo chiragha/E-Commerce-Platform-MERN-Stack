@@ -3,7 +3,8 @@ import axios from "axios";
 import { Autoplay } from "swiper/modules";
 import { Link, useNavigate } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
-
+import {BACKEND_URL} from "../utils/utils";
+import { toast } from "react-toastify";
 
 import "swiper/css";
 
@@ -17,7 +18,7 @@ const Products = () => {
   const handleLogout = async () => {
     try {
       // ✅ call backend logout
-      await axios.get("http://localhost:4001/api/v1/user/logout", {
+      await axios.get(`${BACKEND_URL}/user/logout`, {
         withCredentials: true,
       });
 
@@ -40,7 +41,7 @@ const Products = () => {
   const fetchProducts = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:4001/api/v1/product/products",
+        `${BACKEND_URL}/product/products`,
         { withCredentials: true },
       );
 
@@ -72,7 +73,7 @@ const Products = () => {
   const displayProducts = getDisplayProducts();
 
   return (
-    <div className="max-w-7xl mx-auto py-12 px-4">
+    <div className="max-w-7xl  mx-auto py-12 px-4">
       <div className="flex justify-between items-center mb-10">
   <h2 className="text-3xl font-bold text-gray-800">
     Featured Products
@@ -139,7 +140,7 @@ const Products = () => {
                       Out of Stock
                     </button>
                   ) : (
-                    <Link to={`/buy/${product._id}`} className="w-full bg-[#afc6e5] text-black py-2 rounded-lg text-sm font-medium hover:opacity-90 transition cursor-pointer">
+                    <Link to={`/buy/${product._id}`} className="w-full bg-[#afc6e5] text-black p-3 rounded-lg text-sm font-medium hover:opacity-90 transition cursor-pointer">
                       Buy Now
                     </Link>
                   )}

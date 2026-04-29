@@ -9,7 +9,7 @@ const Hero = () => {
       }}
     >
       {/* Overlay (optional for better text visibility) */}
-      <div className="w-full h-full bg-black/20 flex items-center">
+      <div className="w-full h-full  flex items-center">
         
         <div className="max-w-7xl mx-auto px-6 text-white">
           

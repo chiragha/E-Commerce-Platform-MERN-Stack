@@ -3,6 +3,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import AdminNavbar from "./AdminNavbar";
+import {BACKEND_URL} from "../utils/utils";
 
 const AdminLogin = () => {
   const [formData, setFormData] = useState({
@@ -27,7 +28,7 @@ const AdminLogin = () => {
     setLoading(true);
 
     const res = await axios.post(
-      "http://localhost:4001/api/v1/admin/login",
+      `${BACKEND_URL}/admin/login`,
       formData
     );
 
@@ -124,7 +125,7 @@ const AdminLogin = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-2 rounded-lg font-medium hover:opacity-90 transition"
+                className="w-full cursor:pointer bg-blue-400 text-white py-2 rounded-lg font-medium hover:opacity-90 transition"
               >
                 {loading ? "Logging in..." : "Login"}
               </button>

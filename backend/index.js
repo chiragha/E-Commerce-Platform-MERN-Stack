@@ -8,7 +8,6 @@ import fileUpload from 'express-fileupload';
 import { v2 as cloudinary } from 'cloudinary';
 import cookieParser from "cookie-parser";
 import cors from 'cors';
-import paymentRoutes from "./routes/payment.routes.js";
 dotenv.config()
 
 
@@ -54,7 +53,7 @@ app.use("/api/v1/user" , userRoute);
 // admin route 
 app.use("/api/v1/admin" , adminRoute);
 
-app.use("/api/payment", paymentRoutes);
+
 // Configuration
     cloudinary.config({ 
         cloud_name: process.env.cloud_name, 

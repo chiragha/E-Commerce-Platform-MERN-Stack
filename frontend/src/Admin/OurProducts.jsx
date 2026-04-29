@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import AdminSidebar from "./AdminSidebar";
 import { Link } from "react-router-dom";
+import {BACKEND_URL} from "../utils/utils";
 
 const OurProducts = () => {
   const [products, setProducts] = useState([]);
@@ -29,7 +30,7 @@ useEffect(() => {
       setLoading(true);
 
       const res = await axios.get(
-        "http://localhost:4001/api/v1/product/products"
+        `${BACKEND_URL}/product/products`
       );
 
       console.log("Products:", res.data.products);
@@ -56,7 +57,7 @@ const handleDelete = async (id) => {
     }
 
     const response = await axios.delete(
-      `http://localhost:4001/api/v1/product/delete/${id}`,
+      `${BACKEND_URL}/product/delete/${id}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,

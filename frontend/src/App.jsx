@@ -25,7 +25,7 @@ const App = () => {
   const user = JSON.parse(localStorage.getItem("user"));
   const admin = JSON.parse(localStorage.getItem("admin"));
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-indigo-50">
+    <div className="">
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />

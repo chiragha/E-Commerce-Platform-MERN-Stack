@@ -3,6 +3,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Sidebar from "../components/Sidebar";
+import {BACKEND_URL} from "../utils/utils";
+
 
 const Purchases = () => {
   const [purchases, setPurchases] = useState([]);
@@ -12,7 +14,7 @@ const Purchases = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.get("http://localhost:4001/api/v1/user/logout", {
+      await axios.get(`${BACKEND_URL}/user/logout`, {
         withCredentials: true,
       });
 
@@ -41,7 +43,7 @@ const Purchases = () => {
     }
 
     const res = await axios.get(
-      "http://localhost:4001/api/v1/user/purchases",
+      `${BACKEND_URL}/user/purchases`,
       {
         headers: {
           Authorization: `Bearer ${token}`,

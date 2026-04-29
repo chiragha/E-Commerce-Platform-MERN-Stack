@@ -3,6 +3,8 @@ import axios from "axios";
 import Navbar from "../components/Navbar";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import {BACKEND_URL} from "../utils/utils";
+
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -27,7 +29,7 @@ const Login = () => {
       setLoading(true);
 
       const res = await axios.post(
-        "http://localhost:4001/api/v1/user/login",
+        `${BACKEND_URL}/user/login`,
         formData,
       );
 
@@ -67,7 +69,7 @@ const Login = () => {
           <img
             src="/leftimg.avif"
             alt=""
-            className="absolute inset-0 w-full h-full object-cover "
+           className="absolute inset-0 w-full h-full object-cover object-center"
           />
 
           <div className="absolute inset-0 bg-black/40"></div>
@@ -121,7 +123,7 @@ const Login = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-2 rounded-lg font-medium hover:opacity-90 transition"
+                className="w-full cursor:pointer bg-blue-400 text-white py-2 rounded-lg font-medium hover:opacity-90 transition"
               >
                 {loading ? "Logging in..." : "Login"}
               </button>

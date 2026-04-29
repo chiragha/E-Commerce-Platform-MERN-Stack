@@ -3,6 +3,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import AdminSidebar from "./AdminSidebar";
+import {BACKEND_URL} from "../utils/utils";
+
 
 const CreateProduct = () => {
   const navigate = useNavigate();
@@ -48,7 +50,7 @@ const CreateProduct = () => {
       data.append("image", formData.image);
 
       await axios.post(
-        "http://localhost:4001/api/v1/product/create",
+        `${BACKEND_URL}/product/create`,
         data,
         {
           headers: {

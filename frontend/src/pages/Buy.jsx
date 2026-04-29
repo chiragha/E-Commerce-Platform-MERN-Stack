@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import {BACKEND_URL} from "../utils/utils";
 
 const BuyProduct = () => {
   const { productId } = useParams();
@@ -13,7 +14,7 @@ const BuyProduct = () => {
     const fetchProduct = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:4001/api/v1/product/${productId}`,
+          `${BACKEND_URL}/product/${productId}`,
         );
         setProduct(res.data.product);
       } catch (err) {
@@ -38,7 +39,7 @@ const BuyProduct = () => {
     try {
       // 2. Call backend buy API
      const res = await axios.post(
-  `http://localhost:4001/api/v1/product/buy/${productId}`,
+  `${BACKEND_URL}/product/buy/${productId}`,
   {},
   {
     headers: {

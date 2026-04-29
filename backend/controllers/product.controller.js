@@ -69,48 +69,41 @@ export const updateProduct = async (req, res) => {
 
   try {
     const { productId } = req.params;
+
     if (!adminId) {
       return res.status(401).json({ error: "Unauthorized admin" });
     }
 
-    // ✅ Validate ObjectId
     if (!mongoose.Types.ObjectId.isValid(productId)) {
       return res.status(400).json({ error: "Invalid product ID" });
     }
 
-    const { title, description, price } = req.body;
-
+    // ✅ MUST DEFINE FIRST
     const existingProduct = await Product.findById(productId);
-    console.log("Token adminId:", adminId);
-    console.log("Product createdBy:", existingProduct.createdBy?.toString());
 
-    if (
-      !existingProduct.createdBy ||
-      adminId !== existingProduct.createdBy.toString()
-    ) {
-      return res.status(403).json({
-        error: "Access denied. You can only update your own products.",
-      });
+    if (!existingProduct) {
+      return res.status(404).json({ error: "Product not found" });
     }
-    // ✅ Safe ownership check
+
+    // ✅ OWNERSHIP CHECK (ONLY THIS ONE)
     if (!existingProduct.createdBy.equals(adminId)) {
       return res.status(403).json({
-        error: "Access denied. You can only update your own products.",
+        error: "You can only update your own products",
       });
     }
-    console.log("Token adminId:", adminId);
-    console.log("Product createdBy:", existingProduct.createdBy?.toString());
-    // ✅ Update fields safely
+
+    const { title, description, price } = req.body;
+
     if (title) existingProduct.title = title;
     if (description) existingProduct.description = description;
     if (price !== undefined) existingProduct.price = price;
 
-    // ✅ Update image
+    // ✅ IMAGE UPDATE
     if (req.files && req.files.image) {
       await cloudinary.uploader.destroy(existingProduct.image.public_id);
 
       const cloud_response = await cloudinary.uploader.upload(
-        req.files.image.tempFilePath,
+        req.files.image.tempFilePath
       );
 
       existingProduct.image = {
@@ -125,6 +118,7 @@ export const updateProduct = async (req, res) => {
       message: "Product updated successfully",
       product: existingProduct,
     });
+
   } catch (error) {
     console.log("Update Product Error:", error);
     res.status(500).json({ error: "Error updating product" });
@@ -136,11 +130,11 @@ export const deleteProduct = async (req, res) => {
   const adminId = req.adminId;
 
   try {
+    const { productId } = req.params;
+
     if (!adminId) {
       return res.status(401).json({ error: "Unauthorized admin" });
     }
-
-    const { productId } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(productId)) {
       return res.status(400).json({ error: "Invalid product ID" });
@@ -148,14 +142,15 @@ export const deleteProduct = async (req, res) => {
 
     const product = await Product.findById(productId);
 
+    // ✅ IMPORTANT CHECK
     if (!product) {
       return res.status(404).json({ error: "Product not found" });
     }
 
-    // ✅ Safe ownership check
-    if (!product.createdBy || adminId !== product.createdBy.toString()) {
+    // ✅ SAFE OWNERSHIP CHECK
+    if (!product.createdBy || !product.createdBy.equals(adminId)) {
       return res.status(403).json({
-        error: "Access denied. You can only delete your own products.",
+        error: "You can only delete your own products",
       });
     }
 
@@ -165,6 +160,7 @@ export const deleteProduct = async (req, res) => {
     res.status(200).json({
       message: "Product deleted successfully",
     });
+
   } catch (error) {
     console.log("Delete Product Error:", error);
     res.status(500).json({ error: "Error deleting product" });
